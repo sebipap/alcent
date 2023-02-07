@@ -9,8 +9,6 @@ import react from "react";
 const Home: NextPage = () => {
   const [newAccountName, setNewAccountName] = react.useState("");
 
-  const { mutate: createAccount } = api.financeAccount.post.useMutation();
-
   return (
     <>
       <Head>
@@ -24,15 +22,7 @@ const Home: NextPage = () => {
             value={newAccountName}
             onChange={(e) => setNewAccountName(e.target.value)}
           />
-          <button
-            onClick={() =>
-              createAccount({
-                name: newAccountName,
-              })
-            }
-          >
-            Create Account
-          </button>
+
           <AuthShowcase />
         </div>
       </main>
