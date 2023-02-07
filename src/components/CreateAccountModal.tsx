@@ -1,5 +1,5 @@
 import { Input } from "@/components/ui/input";
-import { api } from "../../../utils/api";
+import { api } from "../utils/api";
 import {
   DialogTrigger,
   Dialog,

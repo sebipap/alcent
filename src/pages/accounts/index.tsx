@@ -2,7 +2,7 @@ import type { NextPage } from "next";
 import { api } from "../../utils/api";
 import Head from "next/head";
 import type { FinanceAccount } from "@prisma/client";
-import { CreateAccountModal } from "./_components/CreateAccountModal";
+import { CreateAccountModal } from "../../components/CreateAccountModal";
 import { useState } from "react";
 
 import { motion } from "framer-motion";
