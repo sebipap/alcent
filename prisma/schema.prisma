@@ -21,6 +21,7 @@ model FinanceAccount {
   updatedAt DateTime @updatedAt
   name      String
   userId    String
+  color     String   @default("#FFFFFF")
   User      User     @relation(fields: [userId], references: [id])
 }
 
