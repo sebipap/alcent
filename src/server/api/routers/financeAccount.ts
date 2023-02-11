@@ -23,7 +23,11 @@ export const financeAccountRouter = createTRPCRouter({
       }
     ),
   getAll: protectedProcedure.query(({ ctx }) => {
-    return ctx.prisma.financeAccount.findMany();
+    return ctx.prisma.financeAccount.findMany({
+      where: {
+        userId: ctx.session.user.id,
+      },
+    });
   }),
   delete: protectedProcedure.input(z.string()).mutation(
     ({
