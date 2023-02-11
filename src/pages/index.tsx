@@ -1,9 +1,7 @@
 import { type NextPage } from "next";
 import Head from "next/head";
-import Link from "next/link";
 import { signIn, signOut, useSession } from "next-auth/react";
 
-import { api } from "../utils/api";
 import react from "react";
 
 const Home: NextPage = () => {
@@ -22,7 +20,6 @@ const Home: NextPage = () => {
             value={newAccountName}
             onChange={(e) => setNewAccountName(e.target.value)}
           />
-
           <AuthShowcase />
         </div>
       </main>
