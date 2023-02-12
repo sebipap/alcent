@@ -12,7 +12,11 @@ import {
 } from "./ui/dropdown";
 
 const Navbar = () => {
-  const { data: sessionData } = useSession();
+  const { data: sessionData, status } = useSession();
+
+  if (status === "unauthenticated") {
+    void signIn();
+  }
 
   return (
     // put in the right place
