@@ -24,7 +24,7 @@ const ViewsButtons = ({
             onClick={() => onChange("Overview")}
             className="rounded-full bg-gray-800 text-xl focus:border-red-500"
           >
-            ⬅️
+            x
           </Button>
           <Button className="rounded-full bg-gray-100 text-gray-900 focus:border-red-500 ">
             {value}
