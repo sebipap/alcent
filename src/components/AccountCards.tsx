@@ -21,7 +21,7 @@ const AccountCard = ({
   className?: string;
   onClick: () => void;
 }) => {
-  const { color, name, id } = account;
+  const { id } = account;
 
   const { mutate: deleteAccount } = api.financeAccount.delete.useMutation();
 
@@ -36,9 +36,8 @@ const AccountCard = ({
           }`}
           layout
           layoutId={id}
-          style={{ borderColor: color }}
         >
-          <h3 className="text-xl font-bold text-white">{name}</h3>
+          <h3 className="text-xl font-bold text-white">{"name"}</h3>
         </motion.div>
       </ContextMenuTrigger>
       <ContextMenuContent>
