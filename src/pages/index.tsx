@@ -7,6 +7,9 @@ import { Button } from "@/components/ui/button";
 import { useState } from "react";
 import AccountCards from "@/components/AccountCards";
 
+import { motion } from "framer-motion";
+import { ArrowLeftIcon, CrossIcon, SidebarCloseIcon } from "lucide-react";
+
 type View = "Accounts" | "Review" | "Overview";
 
 const ViewsButtons = ({
@@ -20,30 +23,38 @@ const ViewsButtons = ({
     <div className="flex gap-2 py-4">
       {value !== "Overview" ? (
         <>
-          <Button
-            onClick={() => onChange("Overview")}
-            className="rounded-full bg-gray-800 text-xl focus:border-red-500"
-          >
-            x
-          </Button>
-          <Button className="rounded-full bg-gray-100 text-gray-900 focus:border-red-500 ">
-            {value}
-          </Button>
+          <motion.div layoutId={"1"} layout>
+            <Button
+              onClick={() => onChange("Overview")}
+              className="rounded-full bg-gray-800 text-xl"
+            >
+              <ArrowLeftIcon />
+            </Button>
+          </motion.div>
+          <motion.div layoutId={"2"} layout>
+            <Button className="rounded-full bg-gray-100 text-gray-900 hover:bg-gray-100">
+              {value}
+            </Button>
+          </motion.div>
         </>
       ) : (
         <>
-          <Button
-            onClick={() => onChange("Accounts")}
-            className="rounded-full bg-gray-800 focus:border-red-500"
-          >
-            Accounts
-          </Button>
-          <Button
-            onClick={() => onChange("Review")}
-            className="rounded-full bg-gray-800 focus:border-red-500"
-          >
-            Review
-          </Button>
+          <motion.div layout layoutId={"1"}>
+            <Button
+              onClick={() => onChange("Accounts")}
+              className="rounded-full bg-gray-800"
+            >
+              Accounts
+            </Button>
+          </motion.div>
+          <motion.div layout layoutId="2">
+            <Button
+              onClick={() => onChange("Review")}
+              className="rounded-full bg-gray-800"
+            >
+              Review
+            </Button>
+          </motion.div>
         </>
       )}
     </div>

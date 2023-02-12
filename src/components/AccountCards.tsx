@@ -37,8 +37,6 @@ const AccountCard = ({
           layout
           layoutId={id}
           style={{ borderColor: color }}
-          drag
-          dragConstraints={{ left: 0, right: 0, top: 0, bottom: 0 }}
         >
           <h3 className="text-xl font-bold text-white">{name}</h3>
         </motion.div>
