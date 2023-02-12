@@ -1,4 +1,4 @@
-import type { ReactNode } from "react";
+import type { KeyboardEvent, ReactNode } from "react";
 import { useState } from "react";
 import { Button } from "../ui/button";
 
@@ -18,54 +18,61 @@ const QuickAction = ({
 }) => {
   const [open, setOpen] = useState(false);
 
-  return (
-    <div className="dark">
-      <div>
-        {open ? (
-          <>
-            <div
-              className="backdrop absolute inset-0 bg-black opacity-50"
-              onClick={() => setOpen(false)}
-            />
-            <div
-              className={
-                "absolute left-0 top-0 flex h-[100vh] w-[100vw] justify-center pt-36"
-              }
-            >
-              <motion.div
-                layout
-                layoutId={`${name}_container`}
-                className=" relative w-[600px] bg-gray-800"
-              >
-                <motion.div className="flex items-center gap-6 bg-gradient-to-tl from-slate-900 to-blue-900 p-6 text-lg font-bold ">
-                  <ArrowLeft
-                    className="text-white"
-                    onClick={() => setOpen(false)}
-                  />
-                  <motion.div
-                    layout
-                    layoutId={`${name}_emoji`}
-                    className="text-white"
-                  >
-                    {emoji}
-                  </motion.div>
+  // when esc key is pressed, close the modal
+  const handleKeyDown = (event: KeyboardEvent<HTMLDivElement>) => {
+    if (event.key !== "Escape") {
+      return;
+    }
+    void setOpen(false);
+  };
 
-                  <motion.div layout layoutId={`${name}_name`}>
+  return (
+    <div onKeyDown={handleKeyDown}>
+      {open ? (
+        <>
+          <div
+            className="backdrop absolute left-0 top-0 h-[100vh] w-[100vw] bg-black opacity-50"
+            onClick={() => setOpen(false)}
+          />
+          <div
+            className={
+              "absolute left-0 top-0 flex h-[100vh] w-[100vw] justify-center sm:pt-5 md:pt-10 lg:pt-36"
+            }
+          >
+            <motion.div
+              layout
+              layoutId={`${name}_container`}
+              className="relative w-[600px] rounded-lg bg-gray-900"
+            >
+              <motion.div className="flex flex-col gap-6 rounded-lg bg-gradient-to-b from-blue-900  via-blue-900 to-transparent p-6 text-lg font-bold">
+                <ArrowLeft
+                  className="text-white"
+                  onClick={() => setOpen(false)}
+                />
+                <div>
+                  <motion.div className="mb-2 flex flex-row items-center ">
                     <div className="text-white">{name}</div>
                   </motion.div>
+
+                  <div className="text-grey-50 text-sm font-normal text-gray-400">
+                    Here is a description of what this action does. It is a
+                  </div>
+                </div>
+                <motion.div className="absolute top-24 right-10 text-3xl">
+                  {emoji}
                 </motion.div>
-                <div className="mt-5">{children}</div>
               </motion.div>
-            </div>
-          </>
-        ) : (
-          <QuickActionButton
-            emoji={emoji}
-            name={name}
-            onClick={() => setOpen(true)}
-          />
-        )}
-      </div>
+              <div className="mt-5 p-6">{children}</div>
+            </motion.div>
+          </div>
+        </>
+      ) : (
+        <QuickActionButton
+          emoji={emoji}
+          name={name}
+          onClick={() => setOpen(true)}
+        />
+      )}
     </div>
   );
 };
@@ -83,11 +90,9 @@ const QuickActionButton = ({
     <motion.div layout layoutId={`${name}_container`} onClick={onClick}>
       <Button className="h-16 w-[100%] justify-start bg-gray-900 p-0 hover:scale-[0.99] dark:bg-gray-900 dark:text-white">
         <motion.div className="mr-5 flex aspect-square h-[100%] items-center justify-center  rounded-md bg-gradient-to-tl from-slate-900 to-blue-900 text-3xl">
-          <motion.div layoutId={`${name}emoji`}>{emoji}</motion.div>
+          <motion.div>{emoji}</motion.div>
         </motion.div>
-        <motion.div layout layoutId={`${name}_name`}>
-          {name}
-        </motion.div>
+        <motion.div>{name}</motion.div>
       </Button>
     </motion.div>
   );

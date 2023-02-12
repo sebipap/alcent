@@ -64,8 +64,10 @@ model Transaction {
   userId           String
   financeAccountId String
   FinanceAccount   FinanceAccount @relation(fields: [userId], references: [id])
+  User             User           @relation(fields: [financeAccountId], references: [id])
 
   @@index([userId])
+  @@index([financeAccountId])
 }
 
 // Necessary for Next auth
@@ -108,6 +110,7 @@ model User {
   accounts       Account[]
   sessions       Session[]
   FinanceAccount FinanceAccount[]
+  Transaction    Transaction[]
 }
 
 model VerificationToken {

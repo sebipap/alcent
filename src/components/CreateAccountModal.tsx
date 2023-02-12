@@ -11,6 +11,7 @@ import {
 import { Button } from "@/components/ui/button";
 import type { FinanceAccount } from "@prisma/client";
 import { useState } from "react";
+import EntityInput from "./EntityInput";
 
 type CreateAccountValues = Omit<
   FinanceAccount,
@@ -35,7 +36,9 @@ export const CreateAccountModal = () => {
     entityId: "",
   });
 
-  const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+  const handleInputChange = (e: {
+    target: { name: string; value: string };
+  }) => {
     const { name, value } = e.target;
     setFormValues((prev) => ({ ...prev, [name]: value }));
   };
@@ -69,12 +72,9 @@ export const CreateAccountModal = () => {
                   placeholder="Unit ID"
                   onChange={handleInputChange}
                 />
-                <Input
-                  type="text"
-                  id="entityId"
-                  name="entityId"
+
+                <EntityInput
                   value={formValues.entityId}
-                  placeholder="Entity ID"
                   onChange={handleInputChange}
                 />
 
