@@ -4,7 +4,13 @@ import { createTRPCRouter, protectedProcedure } from "../trpc";
 
 export const financeAccountRouter = createTRPCRouter({
   post: protectedProcedure
-    .input(z.object({ name: z.string(), color: z.string() }))
+    .input(
+      z.object({
+        unitId: z.string(),
+        type: z.string(),
+        entityId: z.string(),
+      })
+    )
     .mutation(
       ({
         input,
@@ -15,9 +21,8 @@ export const financeAccountRouter = createTRPCRouter({
       }) => {
         return prisma.financeAccount.create({
           data: {
-            name: input.name,
-            color: input.color,
             userId: user.id,
+            ...input,
           },
         });
       }

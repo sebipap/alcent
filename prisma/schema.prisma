@@ -15,14 +15,57 @@ datasource db {
   relationMode = "prisma"
 }
 
+// fincance accounts can either be assets, liabilities, income or expenses
+
 model FinanceAccount {
-  id        String   @id @default(cuid())
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
-  name      String
-  userId    String
-  color     String   @default("#FFFFFF")
-  User      User     @relation(fields: [userId], references: [id])
+  id          String        @id @default(cuid())
+  createdAt   DateTime      @default(now())
+  updatedAt   DateTime      @updatedAt
+  userId      String
+  entityId    String
+  Entity      Entity        @relation(fields: [entityId], references: [id])
+  type        String        @default("asset")
+  User        User          @relation(fields: [userId], references: [id])
+  Transaction Transaction[]
+  unitId      String
+  unit        Unit          @relation(fields: [unitId], references: [id])
+
+  @@index([unitId])
+  @@index([userId])
+  @@index([entityId])
+}
+
+// Examples: Bank of America, my wallet, my friend John, 
+model Entity {
+  id             String           @id @default(cuid())
+  createdAt      DateTime         @default(now())
+  updatedAt      DateTime         @updatedAt
+  name           String
+  FinanceAccount FinanceAccount[]
+}
+
+// Examples: USD, EUR, BTC, ETH, my car
+model Unit {
+  id             String           @id @default(cuid())
+  createdAt      DateTime         @default(now())
+  updatedAt      DateTime         @updatedAt
+  name           String
+  symbol         String
+  FinanceAccount FinanceAccount[]
+}
+
+model Transaction {
+  id               String         @id @default(cuid())
+  createdAt        DateTime       @default(now())
+  updatedAt        DateTime       @updatedAt
+  name             String
+  amount           Float
+  date             DateTime
+  userId           String
+  financeAccountId String
+  FinanceAccount   FinanceAccount @relation(fields: [userId], references: [id])
+
+  @@index([userId])
 }
 
 // Necessary for Next auth
@@ -32,6 +75,7 @@ model Account {
   type              String
   provider          String
   providerAccountId String
+  currency          String  @default("USD")
   refresh_token     String? @db.Text
   access_token      String? @db.Text
   expires_at        Int?
@@ -42,6 +86,7 @@ model Account {
   user              User    @relation(fields: [userId], references: [id], onDelete: Cascade)
 
   @@unique([provider, providerAccountId])
+  @@index([userId])
 }
 
 model Session {
@@ -50,6 +95,8 @@ model Session {
   userId       String
   expires      DateTime
   user         User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@index([userId])
 }
 
 model User {

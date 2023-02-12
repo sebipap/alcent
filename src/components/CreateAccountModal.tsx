@@ -12,7 +12,10 @@ import { Button } from "@/components/ui/button";
 import type { FinanceAccount } from "@prisma/client";
 import { useState } from "react";
 
-type CreateAccountValues = Pick<FinanceAccount, "name" | "color">;
+type CreateAccountValues = Omit<
+  FinanceAccount,
+  "id" | "createdAt" | "updatedAt" | "userId"
+>;
 
 export const CreateAccountModal = () => {
   const [open, setOpen] = useState(false);
@@ -22,9 +25,14 @@ export const CreateAccountModal = () => {
       onSuccess: () => closeModal(),
     });
 
+  // const randomHexColor = `#${Math.floor(Math.random() * 16777215).toString(
+  //   16
+  // )}`;
+
   const [formValues, setFormValues] = useState<CreateAccountValues>({
-    name: "",
-    color: "",
+    unitId: "",
+    type: "asset",
+    entityId: "",
   });
 
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -36,12 +44,8 @@ export const CreateAccountModal = () => {
     setOpen(false);
   };
 
-  const randomHexColor = `#${Math.floor(Math.random() * 16777215).toString(
-    16
-  )}`;
-
   const handleSubmit = () => {
-    createAccount({ ...formValues, color: formValues.color || randomHexColor });
+    createAccount(formValues);
   };
 
   return (
@@ -58,21 +62,31 @@ export const CreateAccountModal = () => {
               <div className="grid w-full max-w-sm items-center gap-1.5">
                 <label htmlFor="name-2">Account Name</label>
                 <Input
-                  type="name"
-                  id="name"
-                  name="name"
-                  value={formValues.name}
-                  placeholder="Name"
+                  type="text"
+                  id="unitId"
+                  name="unitId"
+                  value={formValues.unitId}
+                  placeholder="Unit ID"
                   onChange={handleInputChange}
                 />
                 <Input
-                  type="color"
-                  id="color"
-                  name="color"
-                  value={formValues.color}
-                  placeholder="Color"
+                  type="text"
+                  id="entityId"
+                  name="entityId"
+                  value={formValues.entityId}
+                  placeholder="Entity ID"
                   onChange={handleInputChange}
                 />
+
+                <Input
+                  type="text"
+                  id="type"
+                  name="type"
+                  value={formValues.type}
+                  placeholder="Type"
+                  onChange={handleInputChange}
+                />
+
                 <p className="text-sm text-slate-500">Account name.</p>
 
                 <Button disabled={isLoading} onClick={handleSubmit}>
