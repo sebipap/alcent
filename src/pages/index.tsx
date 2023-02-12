@@ -4,8 +4,55 @@ import Head from "next/head";
 import Navbar from "@/components/NavBar";
 import QuickActions from "@/components/QuickActions";
 import { Button } from "@/components/ui/button";
+import { useState } from "react";
+import AccountCards from "@/components/AccountCards";
+
+type View = "Accounts" | "Review" | "Overview";
+
+const ViewsButtons = ({
+  onChange,
+  value,
+}: {
+  onChange: (value: View) => void;
+  value: View;
+}) => {
+  return (
+    <div className="flex gap-2 py-4">
+      {value !== "Overview" ? (
+        <>
+          <Button
+            onClick={() => onChange("Overview")}
+            className="rounded-full bg-gray-800 text-xl focus:border-red-500"
+          >
+            ⬅️
+          </Button>
+          <Button className="rounded-full bg-gray-100 text-gray-900 focus:border-red-500 ">
+            {value}
+          </Button>
+        </>
+      ) : (
+        <>
+          <Button
+            onClick={() => onChange("Accounts")}
+            className="rounded-full bg-gray-800 focus:border-red-500"
+          >
+            Accounts
+          </Button>
+          <Button
+            onClick={() => onChange("Review")}
+            className="rounded-full bg-gray-800 focus:border-red-500"
+          >
+            Review
+          </Button>
+        </>
+      )}
+    </div>
+  );
+};
 
 const Home: NextPage = () => {
+  const [view, setView] = useState<View>("Overview");
+
   return (
     <>
       <Head>
@@ -16,11 +63,15 @@ const Home: NextPage = () => {
       <div className="flex w-[100%] flex-col items-center justify-around px-4 py-6">
         <div className="w-[100%] max-w-[1000px]">
           <Navbar />
-          <div className="flex gap-2 py-4">
-            <Button className="rounded-full">Register </Button>
-            <Button className="rounded-full">Review </Button>
-          </div>
-          <QuickActions />
+
+          <ViewsButtons onChange={setView} value={view} />
+          {view === "Overview" ? (
+            <QuickActions />
+          ) : view === "Accounts" ? (
+            <AccountCards />
+          ) : (
+            <div>review</div>
+          )}
         </div>
       </div>
     </>

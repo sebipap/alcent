@@ -31,14 +31,14 @@ const AccountCard = ({
         <motion.div
           key={id}
           onClick={onClick}
-          className={`mb-[-100px] h-[200px] w-[316px]  rounded-lg  border bg-white p-4 shadow-lg ${
+          className={`mb-[-100px] h-[200px] w-[316px]  rounded-lg  border bg-slate-900 p-4 shadow-lg ${
             className || ""
           }`}
           layout
           layoutId={id}
           style={{ borderColor: color }}
         >
-          <h3 className="text-xl font-bold text-slate-700">{name}</h3>
+          <h3 className="text-xl font-bold text-white">{name}</h3>
         </motion.div>
       </ContextMenuTrigger>
       <ContextMenuContent>
@@ -75,7 +75,7 @@ const AccountCards: NextPage = () => {
   };
 
   const cardStackClassName = selectMode
-    ? "flex flex-row w-[1000px] flex-wrap"
+    ? "flex flex-col"
     : "flex flex-col items-center justify-center  ";
 
   return (
@@ -88,7 +88,7 @@ const AccountCards: NextPage = () => {
           onClick={() => {
             return;
           }}
-          className="mb-6 scale-[150]"
+          className="mb-20 scale-[150]"
         />
       )}
 
