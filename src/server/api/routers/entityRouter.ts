@@ -7,6 +7,7 @@ export const entityRouter = createTRPCRouter({
     .input(
       z.object({
         name: z.string(),
+        color: z.string(),
       })
     )
     .mutation(({ input, ctx: { prisma } }) => {
@@ -19,4 +20,18 @@ export const entityRouter = createTRPCRouter({
   getAll: protectedProcedure.query(({ ctx }) => {
     return ctx.prisma.entity.findMany();
   }),
+
+  getOne: protectedProcedure
+    .input(
+      z.object({
+        id: z.string(),
+      })
+    )
+    .query(({ input, ctx }) => {
+      return ctx.prisma.entity.findUnique({
+        where: {
+          id: input.id,
+        },
+      });
+    }),
 });

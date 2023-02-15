@@ -11,10 +11,12 @@ const QuickAction = ({
   name,
   emoji,
   children,
+  gradientColor,
 }: {
   name: string;
   emoji: string;
   children: ReactNode;
+  gradientColor: string;
 }) => {
   const [open, setOpen] = useState(false);
 
@@ -44,7 +46,9 @@ const QuickAction = ({
               layoutId={`${name}_container`}
               className="relative w-[600px] rounded-lg bg-gray-900"
             >
-              <motion.div className="flex flex-col gap-6 rounded-lg bg-gradient-to-b from-blue-900  via-blue-900 to-transparent p-6 text-lg font-bold">
+              <motion.div
+                className={`flex flex-col gap-6 rounded-lg bg-gradient-to-b ${gradientColor} ${gradientColor} to-transparent p-6 text-lg font-bold`}
+              >
                 <ArrowLeft
                   className="text-white"
                   onClick={() => setOpen(false)}
@@ -58,9 +62,6 @@ const QuickAction = ({
                     Here is a description of what this action does. It is a
                   </div>
                 </div>
-                <motion.div className="absolute top-24 right-10 text-3xl">
-                  {emoji}
-                </motion.div>
               </motion.div>
               <div className="mt-5 p-6">{children}</div>
             </motion.div>
@@ -71,6 +72,7 @@ const QuickAction = ({
           emoji={emoji}
           name={name}
           onClick={() => setOpen(true)}
+          gradientColor={gradientColor}
         />
       )}
     </div>
@@ -81,15 +83,19 @@ const QuickActionButton = ({
   name,
   emoji,
   onClick,
+  gradientColor,
 }: {
   name: string;
   emoji: string;
   onClick?: () => void;
+  gradientColor: string;
 }) => {
   return (
     <motion.div layout layoutId={`${name}_container`} onClick={onClick}>
       <Button className="h-16 w-[100%] justify-start bg-gray-900 p-0 hover:scale-[0.99] dark:bg-gray-900 dark:text-white">
-        <motion.div className="mr-5 flex aspect-square h-[100%] items-center justify-center  rounded-md bg-gradient-to-tl from-slate-900 to-blue-900 text-3xl">
+        <motion.div
+          className={`mr-5 flex aspect-square h-[100%] items-center justify-center  rounded-md bg-gradient-to-br ${gradientColor} to-slate-900  text-3xl`}
+        >
           <motion.div>{emoji}</motion.div>
         </motion.div>
         <motion.div>{name}</motion.div>
@@ -101,22 +107,42 @@ const QuickActionButton = ({
 const QuickActions = () => {
   return (
     <div className="grid grid-cols-2 gap-2">
-      <QuickAction emoji={"🛍️"} name={"Purchase"}>
+      <QuickAction
+        emoji={"🛍️"}
+        name={"Purchase"}
+        gradientColor={"from-[#541226]"}
+      >
         abc
       </QuickAction>
-      <QuickAction emoji="➡️" name="Move">
+      <QuickAction emoji="➡️" name="Move" gradientColor={"from-blue-900"}>
         <MoveForm />
       </QuickAction>
-      <QuickAction emoji={"🤑"} name={"Income"}>
+      <QuickAction
+        emoji={"🤑"}
+        name={"Income"}
+        gradientColor={"from-green-900"}
+      >
         abc
       </QuickAction>
-      <QuickAction emoji={"🫰"} name={"Lend or Borrow"}>
+      <QuickAction
+        emoji={"🫰"}
+        name={"Lend or Borrow"}
+        gradientColor={"from-yellow-900"}
+      >
         abc
       </QuickAction>
-      <QuickAction emoji={"💹"} name={"Invest "}>
+      <QuickAction
+        emoji={"💹"}
+        name={"Invest "}
+        gradientColor={"from-[#587a18]"}
+      >
         abc
       </QuickAction>
-      <QuickAction emoji={"🔎"} name={"Search"}>
+      <QuickAction
+        emoji={"🔎"}
+        name={"Search"}
+        gradientColor={"from-purple-900"}
+      >
         abc
       </QuickAction>
     </div>

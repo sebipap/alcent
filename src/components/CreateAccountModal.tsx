@@ -9,9 +9,18 @@ import {
   DialogContent,
 } from "src/components/ui/dialog";
 import { Button } from "@/components/ui/button";
-import type { FinanceAccount } from "@prisma/client";
+import type { Entity, FinanceAccount } from "@prisma/client";
 import { useState } from "react";
 import EntityInput from "./EntityInput";
+import UnitInput from "./UnitInput";
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "./ui/select";
+import { AccountCard } from "./AccountInput";
 
 type CreateAccountValues = Omit<
   FinanceAccount,
@@ -20,6 +29,8 @@ type CreateAccountValues = Omit<
 
 export const CreateAccountModal = () => {
   const [open, setOpen] = useState(false);
+
+  const utils = api.useContext();
 
   const { mutate: createAccount, isLoading } =
     api.financeAccount.post.useMutation({
@@ -37,7 +48,7 @@ export const CreateAccountModal = () => {
   });
 
   const handleInputChange = (e: {
-    target: { name: string; value: string };
+    target: { name: string; value: string | null };
   }) => {
     const { name, value } = e.target;
     setFormValues((prev) => ({ ...prev, [name]: value }));
@@ -51,6 +62,16 @@ export const CreateAccountModal = () => {
     createAccount(formValues);
   };
 
+  const x = api.unit.getOne.useQuery({ id: formValues.unitId });
+
+  // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
+  const unit = x.data;
+
+  const y = api.entity.getOne.useQuery({ id: formValues.entityId });
+
+  // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
+  const entity = y.data;
+
   return (
     <>
       <Dialog open={open} onOpenChange={(x) => setOpen(x)}>
@@ -62,37 +83,72 @@ export const CreateAccountModal = () => {
             <DialogTitle>Create an account</DialogTitle>
             <DialogDescription>
               An account can be an asset, liability, equity, income, or expense.
-              <div className="grid w-full max-w-sm items-center gap-1.5">
-                <label htmlFor="name-2">Account Name</label>
-                <Input
-                  type="text"
-                  id="unitId"
-                  name="unitId"
-                  value={formValues.unitId}
-                  placeholder="Unit ID"
-                  onChange={handleInputChange}
+              <div className="flex gap-6">
+                <div>
+                  <Select
+                    onValueChange={(value) =>
+                      handleInputChange({
+                        target: { name: "type", value },
+                      })
+                    }
+                    value={formValues.type}
+                  >
+                    <label className="text-sm">Type</label>
+                    <SelectTrigger className="w-[180px]">
+                      <SelectValue placeholder="Type" />
+                    </SelectTrigger>
+                    <SelectContent>
+                      <SelectItem layoutId={"asset"} value={"asset"}>
+                        Asset
+                      </SelectItem>
+                      <SelectItem layoutId={"liability"} value={"liability"}>
+                        Liability
+                      </SelectItem>
+                      <SelectItem layoutId={"income"} value={"income"}>
+                        Income
+                      </SelectItem>
+                      <SelectItem layoutId={"expense"} value={"expense"}>
+                        Expense
+                      </SelectItem>
+                    </SelectContent>
+                  </Select>
+
+                  <EntityInput
+                    value={formValues.entityId}
+                    onChange={handleInputChange}
+                  />
+
+                  <UnitInput
+                    value={formValues.unitId}
+                    onChange={handleInputChange}
+                  />
+                </div>
+
+                <AccountCard
+                  account={{
+                    id: "1",
+                    type: formValues.type,
+
+                    Entity:
+                      entity ||
+                      ({
+                        id: formValues.entityId,
+                        name: "Entity Name",
+                        color: "#000000",
+                      } as Entity),
+
+                    // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
+                    Unit: unit || {
+                      id: formValues.unitId,
+                      name: "X",
+                      color: "#000000",
+                    },
+                  }}
                 />
-
-                <EntityInput
-                  value={formValues.entityId}
-                  onChange={handleInputChange}
-                />
-
-                <Input
-                  type="text"
-                  id="type"
-                  name="type"
-                  value={formValues.type}
-                  placeholder="Type"
-                  onChange={handleInputChange}
-                />
-
-                <p className="text-sm text-slate-500">Account name.</p>
-
-                <Button disabled={isLoading} onClick={handleSubmit}>
-                  Submit
-                </Button>
               </div>
+              <Button disabled={isLoading} onClick={handleSubmit}>
+                Submit
+              </Button>
             </DialogDescription>
           </DialogHeader>
         </DialogContent>

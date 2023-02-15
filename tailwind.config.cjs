@@ -7,7 +7,9 @@ module.exports = {
   theme: {
     extend: {
       fontFamily: {
-        sans: ["var(--font-sans)", ...fontFamily.sans],
+        sans: ["Sofia Sans", ...fontFamily.sans],
+        body: ["Sofia Sans", ...fontFamily.sans],
+        display: ["Sofia Sans", ...fontFamily.sans],
       },
       keyframes: {
         "accordion-down": {

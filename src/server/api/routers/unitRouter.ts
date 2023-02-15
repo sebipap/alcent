@@ -7,7 +7,6 @@ export const unitRouter = createTRPCRouter({
     .input(
       z.object({
         name: z.string(),
-        symbol: z.string(),
       })
     )
     .mutation(({ input, ctx: { prisma } }) => {
@@ -20,4 +19,17 @@ export const unitRouter = createTRPCRouter({
   getAll: protectedProcedure.query(({ ctx }) => {
     return ctx.prisma.unit.findMany();
   }),
+  getOne: protectedProcedure
+    .input(
+      z.object({
+        id: z.string(),
+      })
+    )
+    .query(({ input, ctx }) => {
+      return ctx.prisma.unit.findUnique({
+        where: {
+          id: input.id,
+        },
+      });
+    }),
 });

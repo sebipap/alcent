@@ -32,6 +32,10 @@ export const financeAccountRouter = createTRPCRouter({
       where: {
         userId: ctx.session.user.id,
       },
+      include: {
+        Unit: true,
+        Entity: true,
+      },
     });
   }),
   delete: protectedProcedure.input(z.string()).mutation(

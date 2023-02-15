@@ -22,13 +22,13 @@ model FinanceAccount {
   createdAt   DateTime      @default(now())
   updatedAt   DateTime      @updatedAt
   userId      String
+  User        User          @relation(fields: [userId], references: [id])
   entityId    String
   Entity      Entity        @relation(fields: [entityId], references: [id])
-  type        String        @default("asset")
-  User        User          @relation(fields: [userId], references: [id])
-  Transaction Transaction[]
   unitId      String
-  unit        Unit          @relation(fields: [unitId], references: [id])
+  Unit        Unit          @relation(fields: [unitId], references: [id])
+  type        String        @default("asset")
+  Transaction Transaction[]
 
   @@index([unitId])
   @@index([userId])
@@ -41,6 +41,7 @@ model Entity {
   createdAt      DateTime         @default(now())
   updatedAt      DateTime         @updatedAt
   name           String
+  color          String           @default("#000000")
   FinanceAccount FinanceAccount[]
 }
 
@@ -50,7 +51,6 @@ model Unit {
   createdAt      DateTime         @default(now())
   updatedAt      DateTime         @updatedAt
   name           String
-  symbol         String
   FinanceAccount FinanceAccount[]
 }
 

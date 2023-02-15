@@ -1,4 +1,4 @@
-import type { Entity } from "@prisma/client";
+import type { Unit } from "@prisma/client";
 
 import {
   Select,
@@ -15,42 +15,41 @@ import { Input } from "./ui/input";
 import { Button } from "./ui/button";
 import { ArrowLeftIcon, PlusIcon } from "lucide-react";
 
-const EntityInput = ({
+const UnitInput = ({
   value,
   onChange,
 }: {
-  value: Entity["id"];
+  value: Unit["id"];
   onChange: (e: { target: { value: string | null; name: string } }) => void;
 }) => {
-  const x: any = api.entity.getAll.useQuery();
+  const x: any = api.unit.getAll.useQuery();
   // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access
-  const entities = x.data as Entity[] | undefined;
+  const units = x.data as Unit[] | undefined;
 
   const [createMode, setCreateMode] = useState(false);
-  const [newEntityName, setNewEntityName] = useState("");
-  const [newEntityColor, setNewEntityColor] = useState("");
+  const [newUnitName, setNewUnitName] = useState("");
 
   const utils = api.useContext();
 
-  const { mutate: createEntity } = api.entity.post.useMutation({
-    onSuccess(newEntity) {
-      handleChange(newEntity.id);
+  const { mutate: createUnit, isLoading } = api.unit.post.useMutation({
+    onSuccess(newUnit) {
+      handleChange(newUnit.id);
       setCreateMode(false);
     },
-    async onMutate(newEntity) {
+    async onMutate(newUnit) {
       // Cancel outgoing fetches (so they don't overwrite our optimistic update)
-      await utils.entity.getAll.cancel();
+      await utils.unit.getAll.cancel();
 
       // Get the data from the queryCache
-      const prevData = utils.entity.getAll.getData();
+      const prevData = utils.unit.getAll.getData();
 
       // Optimistically update the data with our new post
-      utils.entity.getAll.setData(undefined, (old) =>
+      utils.unit.getAll.setData(undefined, (old) =>
         old
           ? [
               ...old,
               {
-                ...newEntity,
+                ...newUnit,
                 id: "temp",
                 createdAt: new Date(),
                 updatedAt: new Date(),
@@ -58,7 +57,7 @@ const EntityInput = ({
             ]
           : [
               {
-                ...newEntity,
+                ...newUnit,
                 id: "temp",
                 createdAt: new Date(),
                 updatedAt: new Date(),
@@ -71,11 +70,11 @@ const EntityInput = ({
     },
     onError(err, newPost, ctx) {
       // If the mutation fails, use the context-value from onMutate
-      utils.entity.getAll.setData(undefined, ctx?.prevData);
+      utils.unit.getAll.setData(undefined, ctx?.prevData);
     },
     async onSettled() {
       // Sync with server once mutation has settled
-      await utils.entity.getAll.invalidate();
+      await utils.unit.getAll.invalidate();
     },
   });
 
@@ -87,7 +86,7 @@ const EntityInput = ({
     onChange({
       target: {
         value,
-        name: "entityId",
+        name: "unitId",
       },
     });
   };
@@ -102,28 +101,21 @@ const EntityInput = ({
               handleChange(null);
             }}
           />
-          <h1 className="text-base">Create Entity</h1>
+          <h1 className="text-base">Create Unit</h1>
         </div>
         <div className="flex gap-3">
           <Input
-            value={newEntityName}
-            onChange={(e) => setNewEntityName(e.target.value)}
-            placeholder="Entity name"
+            value={newUnitName}
+            onChange={(e) => setNewUnitName(e.target.value)}
+            placeholder="Unit name"
           />
-          <Input
-            value={newEntityColor}
-            onChange={(e) => setNewEntityColor(e.target.value)}
-            placeholder="Entity color"
-            type="color"
-          />
-
           <Button
             onClick={() => {
-              createEntity({
-                name: newEntityName,
-                color: newEntityColor,
+              createUnit({
+                name: newUnitName,
               });
             }}
+            disabled={isLoading}
           >
             <PlusIcon />
           </Button>
@@ -134,14 +126,14 @@ const EntityInput = ({
 
   return (
     <Select onValueChange={handleChange} value={value}>
-      <label className="text-sm">Entity</label>
+      <label className="text-sm">Unit</label>
       <SelectTrigger className="w-[180px]">
-        <SelectValue placeholder="Entity" />
+        <SelectValue placeholder="Unit" />
       </SelectTrigger>
       <SelectContent>
-        {entities?.map((entity) => (
-          <SelectItem layoutId={entity.id} value={entity.id}>
-            {entity.name}
+        {units?.map((unit) => (
+          <SelectItem layoutId={unit.id} value={unit.id}>
+            {unit.name}
           </SelectItem>
         ))}
         <SelectSeparator />
@@ -154,4 +146,4 @@ const EntityInput = ({
   );
 };
 
-export default EntityInput;
+export default UnitInput;

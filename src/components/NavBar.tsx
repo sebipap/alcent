@@ -19,7 +19,6 @@ const Navbar = () => {
   }
 
   return (
-    // put in the right place
     <div>
       <div className="mb-6 flex w-[100%] max-w-[1000px] flex-row items-center justify-between">
         <h1 className="flex-1 font-sans text-xl font-extrabold text-white">
