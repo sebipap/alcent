@@ -79,7 +79,7 @@ const Home: NextPage = () => {
           {view === "Overview" ? (
             <QuickActions />
           ) : view === "Accounts" ? (
-            <AccountInput />
+            <div>accounts</div>
           ) : (
             <div>review</div>
           )}
