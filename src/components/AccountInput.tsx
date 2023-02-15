@@ -162,14 +162,13 @@ const AccountInput = ({
             if (account.id === value && !selectMode) return null;
 
             return (
-              <div key={account.id}>
-                <AccountCard
-                  layoutId={`${layoutId}${account.id}`}
-                  account={account}
-                  onClick={() => handleCardStackCardClick(account.id)}
-                  className={selectMode ? " mb-[-10px] " : "mb-[-60px]"}
-                />
-              </div>
+              // eslint-disable-next-line react/jsx-key
+              <AccountCard
+                layoutId={`${layoutId}${account.id}`}
+                account={account}
+                onClick={() => handleCardStackCardClick(account.id)}
+                className={selectMode ? " mb-[-10px] " : "mb-[-60px]"}
+              />
             );
           })}
         </div>
