@@ -64,13 +64,13 @@ export const CreateAccountModal = () => {
 
   const x = api.unit.getOne.useQuery({ id: formValues.unitId });
 
-  // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
-  const unit = x.data;
+  // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment, @typescript-eslint/no-unsafe-member-access
+  const unit = (x as any).data;
 
   const y = api.entity.getOne.useQuery({ id: formValues.entityId });
 
-  // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
-  const entity = y.data;
+  // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment, @typescript-eslint/no-unsafe-member-access
+  const entity = (y as any).data;
 
   return (
     <>
@@ -125,10 +125,16 @@ export const CreateAccountModal = () => {
                 </div>
 
                 <AccountCard
+                  layoutId="account-card"
+                  onClick={() => void 0}
                   account={{
                     id: "1",
                     type: formValues.type,
-
+                    createdAt: new Date(),
+                    updatedAt: new Date(),
+                    userId: "1",
+                    entityId: "",
+                    unitId: "",
                     Entity:
                       entity ||
                       ({

@@ -107,7 +107,7 @@ export const AccountCard = ({
   );
 };
 
-const AccountInput = ({
+const AccountCards = ({
   value,
   onChange,
   layoutId,
@@ -181,4 +181,4 @@ const AccountInput = ({
   );
 };
 
-export default AccountInput;
+export default AccountCards;

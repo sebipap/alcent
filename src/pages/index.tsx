@@ -5,7 +5,7 @@ import Navbar from "@/components/NavBar";
 import QuickActions from "@/components/QuickActions/QuickActions";
 import { Button } from "@/components/ui/button";
 import { useState } from "react";
-import AccountInput from "@/components/AccountCards";
+import AccountCards from "@/components/AccountCards";
 
 import { motion } from "framer-motion";
 import { ArrowLeftIcon, CrossIcon, SidebarCloseIcon } from "lucide-react";
@@ -79,7 +79,7 @@ const Home: NextPage = () => {
           {view === "Overview" ? (
             <QuickActions />
           ) : view === "Accounts" ? (
-            <div>accounts</div>
+            <AccountCards {...({} as any)} />
           ) : (
             <div>review</div>
           )}

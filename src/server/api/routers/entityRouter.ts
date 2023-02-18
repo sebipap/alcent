@@ -8,6 +8,7 @@ export const entityRouter = createTRPCRouter({
       z.object({
         name: z.string(),
         color: z.string(),
+        logoImageUrl: z.string(),
       })
     )
     .mutation(({ input, ctx: { prisma } }) => {

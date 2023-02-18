@@ -29,6 +29,7 @@ const EntityInput = ({
   const [createMode, setCreateMode] = useState(false);
   const [newEntityName, setNewEntityName] = useState("");
   const [newEntityColor, setNewEntityColor] = useState("");
+  const [newEntityLogoImageUrl, setNewEntityLogoImageUrl] = useState("");
 
   const utils = api.useContext();
 
@@ -117,11 +118,19 @@ const EntityInput = ({
             type="color"
           />
 
+          <Input
+            value={newEntityLogoImageUrl}
+            onChange={(e) => setNewEntityLogoImageUrl(e.target.value)}
+            placeholder="logo"
+            type="text"
+          />
+
           <Button
             onClick={() => {
               createEntity({
                 name: newEntityName,
                 color: newEntityColor,
+                logoImageUrl: newEntityLogoImageUrl,
               });
             }}
           >
