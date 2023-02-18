@@ -8,17 +8,10 @@ const MoveForm = () => {
 
   return (
     <div className="flex flex-col gap-6">
-      <div className="flex">
-        <AccountInput
-          onChange={setFromAccountId}
-          value={fromAccountId}
-          layoutId={"1"}
-        />
-        <AccountInput
-          onChange={setToAccountId}
-          value={toAccountId}
-          layoutId={"2"}
-        />
+      <div className="flex"></div>
+      <div className="flex gap-[20px] ">
+        <AccountInput value={fromAccountId} onChange={setFromAccountId} />
+        <AccountInput value={toAccountId} onChange={setToAccountId} />
       </div>
 
       <Button>Submit</Button>

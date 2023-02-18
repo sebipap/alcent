@@ -20,7 +20,7 @@ import {
   SelectTrigger,
   SelectValue,
 } from "./ui/select";
-import { AccountCard } from "./AccountInput";
+import { AccountCard } from "./AccountCards";
 
 type CreateAccountValues = Omit<
   FinanceAccount,

@@ -42,6 +42,7 @@ model Entity {
   updatedAt      DateTime         @updatedAt
   name           String
   color          String           @default("#000000")
+  logoImageUrl   String?          @db.Text
   FinanceAccount FinanceAccount[]
 }
 
