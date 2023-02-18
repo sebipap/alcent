@@ -34,7 +34,7 @@ const AccountInput = ({
       </SelectTrigger>
       <SelectContent>
         {financeAccounts?.map((account) => (
-          <SelectItem layoutId={account.id} value={account.id}>
+          <SelectItem value={account.id}>
             {account.Entity.name} {account.Unit.name}
           </SelectItem>
         ))}
