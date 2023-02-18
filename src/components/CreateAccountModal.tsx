@@ -98,18 +98,10 @@ export const CreateAccountModal = () => {
                       <SelectValue placeholder="Type" />
                     </SelectTrigger>
                     <SelectContent>
-                      <SelectItem layoutId={"asset"} value={"asset"}>
-                        Asset
-                      </SelectItem>
-                      <SelectItem layoutId={"liability"} value={"liability"}>
-                        Liability
-                      </SelectItem>
-                      <SelectItem layoutId={"income"} value={"income"}>
-                        Income
-                      </SelectItem>
-                      <SelectItem layoutId={"expense"} value={"expense"}>
-                        Expense
-                      </SelectItem>
+                      <SelectItem value={"asset"}>Asset</SelectItem>
+                      <SelectItem value={"liability"}>Liability</SelectItem>
+                      <SelectItem value={"income"}>Income</SelectItem>
+                      <SelectItem value={"expense"}>Expense</SelectItem>
                     </SelectContent>
                   </Select>
 
